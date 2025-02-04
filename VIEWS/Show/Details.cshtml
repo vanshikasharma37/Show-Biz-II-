@@ -1,0 +1,114 @@
+﻿@model ViewModel.ShowWithInfoViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h1 class="h1 fw-normal">@Model.Name</h1>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Genre)
+        </dt>
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Genre)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ReleaseDate)
+        </dt>
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ReleaseDate)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </dt>
+
+        <dd class="col-sm-10">
+            <div class="w-25">
+                <img src="@Model.ImageUrl" alt="Image" class="rounded img-thumbnail w-75" />
+            </div>
+            @*@Html.DisplayFor(model => model.ImageUrl)*@
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Coordinator)
+        </dt>
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Coordinator)
+        </dd>
+
+        <hr />
+
+        <dt class="col-sm-2">
+            Cast
+            <br />
+            <span class="badge rounded-pill text-bg-secondary">
+                @Model.Actors.Count()
+                @Html.DisplayNameFor(model => model.Actors)
+            </span>
+        </dt>
+
+        <dd class="col-sm-10">
+            @foreach (var show in Model.Actors)
+            {
+                <div>@show.Name</div>
+            }
+
+        </dd>
+
+        <hr class="mt-3" />
+
+        <dt class="col-sm-2">
+            Episodes
+            <br />
+            <span class="badge rounded-pill text-bg-secondary">
+                @Model.Episodes.Count()
+                @Html.DisplayNameFor(model => model.Episodes)
+            </span>
+        </dt>
+
+        <dd class="col-sm-10">
+            @foreach (var show in Model.Episodes)
+            {
+                <div>@show.Name</div>
+            }
+
+        </dd>
+
+        @if (!String.IsNullOrEmpty(Model.Premise))
+        {
+            <hr class="mt-3" />
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Premise)
+            </dt>
+
+            <dd class="col-sm-10">
+                @Html.Raw(Model.Premise)
+            </dd>
+        }
+    </dl>
+</div>
+
+<div>
+    @if (User.IsInRole("Clerk"))
+    {
+        @Html.ActionLink("Add New Episode", "Create", "Episode", new { id = Model.Id }, new { @class = "btn btn-link me-3" })
+    }
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-secondary" })
+</div>
+

@@ -1,0 +1,195 @@
+﻿@model ViewModel.ActorWithShowInfoViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    <h1 class="h1 fw-normal">@Model.Name</h1>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AlternateName)
+        </dt>
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AlternateName)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Height)
+        </dt>
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Height)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </dt>
+
+        <dd class="col-sm-10">
+            <div class="w-25">
+                <img src="@Model.ImageUrl" alt="Image" class="rounded img-thumbnail w-75" />
+            </div>
+            @*@Html.DisplayFor(model => model.ImageUrl)*@
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Executive)
+        </dt>
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Executive)
+        </dd>
+
+        <hr />
+
+        <dt class="col-sm-2">
+            Appeared In
+            <br />
+            <span class="badge rounded-pill text-bg-secondary">
+                @Model.Shows.Count()
+                @Html.DisplayNameFor(model => model.Shows)
+            </span>
+        </dt>
+
+        <dd class="col-sm-10">
+            @foreach (var show in Model.Shows)
+            {
+                <div>@show.Name</div>
+            }
+        </dd>
+
+        @if (!String.IsNullOrEmpty(Model.Biography))
+        {
+            <hr class="mt-3" />
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Biography)
+            </dt>
+
+            <dd class="col-sm-10">
+                @Html.Raw(Model.Biography)
+            </dd>
+        }
+
+        @if (Model.Photos.Any())
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Photos)
+            </dt>
+
+            <dd class="col-sm-10">
+                <div class="d-flex justify-content-start align-items-center">
+                    @foreach (var photo in Model.Photos)
+                    {
+                        <div class="w-25 text-center">
+                            <img src="@Url.Action("MediaItemDownload", "Actor", new { id = photo.Id })" class="rounded img-thumbnail w-50" alt="@photo.Caption" />
+                            <br />
+                            <small>@photo.Caption</small>
+                        </div>
+                    }
+                </div>
+            </dd>
+
+        }
+
+        @if (Model.Documents.Any())
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Documents)
+            </dt>
+
+            <dd class="col-sm-10">
+                <div class="d-flex justify-content-start align-items-center">
+                    @foreach (var document in Model.Documents)
+                    {
+                        <div class="text-center">
+                            <a href="@Url.Action("MediaItemDownload", "Actor", new { id = document.Id })" class="d-flex text-decoration-none flex-column">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="#e83737" stroke-linecap="round" stroke-linejoin="round"><path stroke-width="1.5" d="M7.792 21.25h8.416a3.5 3.5 0 0 0 3.5-3.5v-5.53a3.5 3.5 0 0 0-1.024-2.475l-5.969-5.97A3.5 3.5 0 0 0 10.24 2.75H7.792a3.5 3.5 0 0 0-3.5 3.5v11.5a3.5 3.5 0 0 0 3.5 3.5" /><path stroke-width="1.5" d="M11.688 3.11v5.66a2 2 0 0 0 2 2h5.662" /><path d="M7.25 16.5v-1m0 0v-2h1a1 1 0 0 1 1 1v0a1 1 0 0 1-1 1zm4 1v-3h.5a1.5 1.5 0 0 1 0 3zm4 0v-1.25m1.5-1.75h-1.5v1.75m0 0h1.5" /></g>
+                                </svg>
+                                <small>@document.Caption</small>
+                            </a>
+                            @*@Html.ActionLink("Download PDF", "MediaItemDownload", "Actor", new { id = document.Id }, null)*@
+                        </div>
+                    }
+                </div>
+            </dd>
+
+        }
+
+        @if (Model.AudioClips.Any())
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.AudioClips)
+            </dt>
+
+            <dd class="col-sm-10">
+                <div class="d-flex justify-content-start align-items-center">
+                    @foreach (var audio in Model.AudioClips)
+                    {
+                        <div class="text-center d-flex text-decoration-none flex-column me-2">
+                            <audio controls>
+                                <source src="@Url.Action("MediaItemDownload", "Actor", new { id = audio.Id })" type="@audio.ContentType" />
+                                Your browser does not support the audio element.
+                            </audio>
+                            <small>@audio.Caption</small>
+                        </div>
+                    }
+                </div>
+            </dd>
+        }
+
+        @if (Model.VideoClips.Any())
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.VideoClips)
+            </dt>
+
+            <dd class="col-sm-10">
+                <div class="d-flex justify-content-start align-items-center">
+                    @foreach (var video in Model.VideoClips)
+                    {
+                        <div class="text-center d-flex text-decoration-none flex-column">
+                            <video controls>
+                                <source src="@Url.Action("MediaItemDownload", "Actor", new { id = video.Id })" type="@video.ContentType" />
+                                Your browser does not support the video element.
+                            </video>
+                            <small>@video.Caption</small>
+                        </div>
+                    }
+                </div>
+            </dd>
+        }
+    </dl>
+</div>
+<div>
+    @if (User.IsInRole("Executive"))
+    {
+        @Html.ActionLink("Add Media Item", "Create", "ActorMediaItem", new { id = Model.Id }, new { @class = "btn btn-link me-3" })
+    }
+    @if (User.IsInRole("Coordinator"))
+    {
+        @Html.ActionLink("Add New Show", "Create", "Show", new { id = Model.Id }, new { @class = "btn btn-link me-3" })
+    }
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-secondary" })
+</div>

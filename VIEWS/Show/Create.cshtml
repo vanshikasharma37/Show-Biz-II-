@@ -1,0 +1,246 @@
+﻿@model ViewModel.ShowAddFormViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="h1 fw-normal">Add Show for @Model.ActorName</h1>
+<hr class="mb-4" />
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="row mb-3">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "col-form-label col-sm-2" })
+            <div class="col-sm-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", autofocus = "autofocus" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            @Html.LabelFor(model => model.ReleaseDate, htmlAttributes: new { @class = "col-form-label col-sm-2" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(model => model.ReleaseDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                @Html.ValidationMessageFor(model => model.ReleaseDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            @Html.LabelFor(model => model.Genre, htmlAttributes: new { @class = "col-form-label col-sm-2" })
+            <div class="col-sm-10">
+                @Html.DropDownListFor(model => model.Genre, Model.Genres, "Select Genre", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Genre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            @Html.Label("Actors", htmlAttributes: new { @class = "col-form-label col-sm-2" })
+            <div class="col-sm-10">
+                @Html.ListBoxFor(model => model.SelectedActorIds, Model.Actors, new { @class = "form-control", multiple = "multiple" })
+                @Html.ValidationMessageFor(model => model.SelectedActorIds, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            @Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "col-form-label col-sm-2" })
+            <div class="col-sm-10">
+                @Html.EditorFor(model => model.ImageUrl, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            @Html.LabelFor(model => model.Premise, htmlAttributes: new { @class = "col-form-label col-sm-2" })
+            <div class="col-sm-10">
+                @Html.TextAreaFor(model => model.Premise, new { @class = "form-control", rows = 10 })
+                @Html.ValidationMessageFor(model => model.Premise, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                @Html.ActionLink("Back to Details", "Details", "Actor", new { id = Model.ActorId }, new { @class = "btn btn-link me-2" })
+                <input type="submit" value="Add Show" class="btn btn-outline-success" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        const {
+            ClassicEditor,
+            Autoformat,
+            Bold,
+            Italic,
+            Underline,
+            BlockQuote,
+            Base64UploadAdapter,
+            CloudServices,
+            CKBox,
+            Essentials,
+            Heading,
+            Image,
+            ImageCaption,
+            ImageResize,
+            ImageStyle,
+            ImageToolbar,
+            ImageUpload,
+            PictureEditing,
+            Indent,
+            IndentBlock,
+            Link,
+            List,
+            MediaEmbed,
+            Mention,
+            Paragraph,
+            PasteFromOffice,
+            Table,
+            TableColumnResize,
+            TableToolbar,
+            TextTransformation
+        } = CKEDITOR;
+        const { FormatPainter } = CKEDITOR_PREMIUM_FEATURES;
+
+        ClassicEditor
+            .create(document.querySelector('#Premise'), {
+                licenseKey: 'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3MzQ5MTE5OTksImp0aSI6IjVjNzdmMmJiLTQ1ZTQtNDY1Mi04MDBjLWNlYWU4Yzc4NzljMCIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjIyYmQ4N2U0In0.YCJwXRWWiNjUN5e1xJkHwB19TI4df7LYkl7f_1kjLT16o8l1lQOPU7GTXMB7x84li8rWsFGTgcbOIkq89jLwBA',
+                plugins: [
+                    Autoformat,
+                    BlockQuote,
+                    Bold,
+                    CloudServices,
+                    Essentials,
+                    Heading,
+                    Image,
+                    ImageCaption,
+                    ImageResize,
+                    ImageStyle,
+                    ImageToolbar,
+                    ImageUpload,
+                    Base64UploadAdapter,
+                    Indent,
+                    IndentBlock,
+                    Italic,
+                    Link,
+                    List,
+                    MediaEmbed,
+                    Mention,
+                    Paragraph,
+                    PasteFromOffice,
+                    PictureEditing,
+                    Table,
+                    TableColumnResize,
+                    TableToolbar,
+                    TextTransformation,
+                    Underline
+                ],
+                toolbar: [
+                    'undo',
+                    'redo',
+                    '|',
+                    'heading',
+                    '|',
+                    'bold',
+                    'italic',
+                    'underline',
+                    '|',
+                    'link',
+                    'uploadImage',
+                    'ckbox',
+                    'insertTable',
+                    'blockQuote',
+                    'mediaEmbed',
+                    '|',
+                    'bulletedList',
+                    'numberedList',
+                    '|',
+                    'outdent',
+                    'indent'
+                ],
+                heading: {
+                    options: [
+                        {
+                            model: 'paragraph',
+                            title: 'Paragraph',
+                            class: 'ck-heading_paragraph'
+                        },
+                        {
+                            model: 'heading1',
+                            view: 'h1',
+                            title: 'Heading 1',
+                            class: 'ck-heading_heading1'
+                        },
+                        {
+                            model: 'heading2',
+                            view: 'h2',
+                            title: 'Heading 2',
+                            class: 'ck-heading_heading2'
+                        },
+                        {
+                            model: 'heading3',
+                            view: 'h3',
+                            title: 'Heading 3',
+                            class: 'ck-heading_heading3'
+                        },
+                        {
+                            model: 'heading4',
+                            view: 'h4',
+                            title: 'Heading 4',
+                            class: 'ck-heading_heading4'
+                        }
+                    ]
+                },
+                image: {
+                    resizeOptions: [
+                        {
+                            name: 'resizeImage:original',
+                            label: 'Default image width',
+                            value: null
+                        },
+                        {
+                            name: 'resizeImage:50',
+                            label: '50% page width',
+                            value: '50'
+                        },
+                        {
+                            name: 'resizeImage:75',
+                            label: '75% page width',
+                            value: '75'
+                        }
+                    ],
+                    toolbar: [
+                        'imageTextAlternative',
+                        'toggleImageCaption',
+                        '|',
+                        'imageStyle:inline',
+                        'imageStyle:wrapText',
+                        'imageStyle:breakText',
+                        '|',
+                        'resizeImage'
+                    ]
+                },
+                link: {
+                    addTargetToExternalLinks: true,
+                    defaultProtocol: 'https://'
+                },
+                table: {
+                    contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+                }
+            }).then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+                console.error(error.stack);
+            });;
+    </script>
+}
